@@ -1,0 +1,17 @@
+yarn init -yarn
+
+yarn add express
+
+yarn add nodemon -D
+
+yarn add mongoose
+mongodb+srv://mestre:<password>@clusterprincipal.pfl5lcv.mongodb.net/?retryWrites=true&w=majority
+
+#multipart form data
+yarn add multer
+
+yarn add cors
+
+yarn add socket.io
+
+yarn add sharp
