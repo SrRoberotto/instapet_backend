@@ -1,19 +1,45 @@
 const express = require('express');
+const path = require('path');
 const multer = require('multer');
 const uploadConfig = require('./config/upload');
-const PostController = require('./controllers/PostController');
+const PubliController = require('./controllers/PubliController');
 const LikeController = require('./controllers/LikeController');
+const UserController = require('./controllers/UserController');
 
 const routes = new express.Router();
 const upload = multer(uploadConfig); 
 
-//Sempre que for invocado o método GET essa rota irá direcionar para o método index
-routes.get('/posts',  PostController.index);
-  
-//Sempre que for invocado o método Post essa rota irá direcionar para o método store
-routes.post('/posts', upload.single('image'), PostController.store);
+
+
+//************    /publi    ************//
+routes.get('/publi',  PubliController.index);
+
+//image = campo na requisição
+routes.post('/publi', upload.single('image'), PubliController.store);
 
 //Rota para receber LIKES via POST, recebe o ID do post
-routes.post('/posts/:id/like', LikeController.store);
+routes.post('/publi/:id/like', LikeController.store);
+
+//Rota de listagem de publicações de um usuário
+routes.get('/publi/:userID',  PubliController.indexUser);
+
+
+//************    /user    ************//
+routes.get('/user/:userID',  UserController.index);
+
+//image = campo na requisição
+routes.post('/user', upload.single('image'), UserController.store);
+
+//Rota para atualizar dados do usuário
+routes.put('/user/:userID', upload.single('image'), UserController.update);
+
+
+
+
+//Rota padrão mostra o HTML
+routes.get('/',function(req,res){
+    res.sendFile(path.join(__dirname,'../index.html'));
+});
+
 
 module.exports = routes;
