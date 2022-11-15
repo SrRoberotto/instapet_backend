@@ -1,10 +1,10 @@
-const Post = require('../models/Post');
+const Publi = require('../models/Publi');
 
 module.exports = {
     //Método invocado quando recebe uma requisição POST de LIKE
     async store (req, res){
         //recupera o registro no DB baseado no id passado na URL
-        const postLike = await Post.findById(req.params.id);
+        const postLike = await Publi.findById(req.params.id);
         
         postLike.likes += 1;
 

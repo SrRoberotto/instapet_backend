@@ -1,7 +1,12 @@
+//Puxa variáveis de ambiente
+require("dotenv").config();
+
 const express = require('express');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+//conexão com o DB
+const mongoose = require("./models/db.js");
 
 const app = express();
 
@@ -9,10 +14,6 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-//conexão com o DB
-mongoose.connect('mongodb+srv://instapet_admin:Admin2022@clusterprincipal.pfl5lcv.mongodb.net/?retryWrites=true&w=majority',{
-    useNewUrlParser: true,
-});
 
 //disponibiliza o socket em toda a aplicação
 app.use((req, res, next) => {
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 
     next();
 })
+
 
 //habilita o Cors
 app.use(cors());
@@ -33,3 +35,4 @@ app.use(require('./routes'));
  
 //app.listen(3333);
 server.listen(3333);
+console.log("Servidor rodando em http://localhost:3333" );
