@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = {
-    //Método invocado quando recebe uma requisição GET
+    //Método invocado quando recebe uma requisição GET com o userID
     async index (req, res){
         const userID = req.params.userID;
 
@@ -23,7 +23,23 @@ module.exports = {
             return res.status(400).json({message:error.message});
         }
     },
+    //Método invocado quando recebe uma requisição GET sem o userID
+    async indexAll (req, res){
+        try {
+            const userObj = await User.find({},{userID: 1,name:1,email:1,isActve:1}).sort({userID:-1});
+        
+            if (!userObj){
+                return res.status(400).json({message:"No user found"});
+            } else {
+                return res.status(200).json(userObj);
+            }
 
+            
+        } catch(error) {
+            console.log(error.message); 
+            return res.status(400).json({message:error.message});
+        }
+    },
 
     //Método invocado quando recebe uma requisição POST
     async store (req, res){

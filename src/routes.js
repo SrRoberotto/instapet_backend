@@ -25,7 +25,11 @@ routes.get('/publi/:userID',  PubliController.indexUser);
 
 
 //************    /user    ************//
+// Listar propriedades de um usuario
 routes.get('/user/:userID',  UserController.index);
+
+// Listar todos usuarios
+routes.get('/user',  UserController.indexAll);
 
 //image = campo na requisição
 routes.post('/user', upload.single('image'), UserController.store);
