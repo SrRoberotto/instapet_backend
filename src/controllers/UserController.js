@@ -76,7 +76,7 @@ module.exports = {
                 name,
                 password,
                 email,
-                userImage: image,
+                userImage: fileName,
             });
             return res.status(201).json(userObj);
         } catch(error) {

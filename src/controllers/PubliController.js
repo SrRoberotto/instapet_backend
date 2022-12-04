@@ -101,7 +101,7 @@ module.exports = {
             const publiObj = await Publi.create({
                 userID,
                 description,
-                publiImage: image,
+                publiImage: fileName,
 
             });
             return res.status(201).json(publiObj);
