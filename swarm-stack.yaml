@@ -1,0 +1,58 @@
+version: '3.9'
+services:
+ instapet-backend:
+  restart: unless-stopped
+  image: instapet_backend:latest
+  command: "npm run start"
+  working_dir: "/home/node/instapet"
+
+  environment:
+   - NODE_ENV=production
+   - MONGO_USERNAME=instapet_admin
+   - MONGO_PASSWORD=Admin2022
+   - MONGO_DATABASE=instapet_db
+   - MONGO_URL=clusterprincipal.pfl5lcv.mongodb.net
+   - MONGO_PORT=27017
+   - ENV_ACTUAL=STACKLOCAL-ONLINEDB-EDITOR
+   - MONGO_URL_FULL=mongodb+srv://instapet_admin:Admin2022@clusterprincipal.pfl5lcv.mongodb.net/?retryWrites=true&w=majority
+
+  expose: 
+   - "3330"
+  ports:
+   - "3330:3333"
+  deploy:
+   mode: replicated
+   replicas: 5
+   update_config:
+    parallelism: 3
+    delay: 5s
+   restart_policy:
+    condition: on-failure
+    max_attempts: 5
+    window: 120s
+   placement:
+    max_replicas_per_node: 2
+    constraints: [node.role == worker]
+  networks:
+   - web
+   
+ proxy:
+  image: dockercloud/haproxy
+  depends_on:
+   - instapet-backend
+  environment:
+   - BALANCE=leastconn
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+  ports:
+   - 85:80
+  networks:
+   - web
+  deploy:
+   placement:
+    constraints: [node.role == manager]
+
+networks:
+ web:
+  driver: overlay     
+     
