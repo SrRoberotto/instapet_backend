@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const os = require('os');
 const uploadConfig = require('./config/upload');
 const PubliController = require('./controllers/PubliController');
 const LikeController = require('./controllers/LikeController');
@@ -37,13 +38,19 @@ routes.post('/user', upload.single('image'), UserController.store);
 //Rota para atualizar dados do usuário
 routes.put('/user/:userID', upload.single('image'), UserController.update);
 
-
-
-
-//Rota padrão mostra o HTML
-routes.get('/',function(req,res){
-    res.sendFile(path.join(__dirname,'../index.html'));
+//Rota para o monitoramento do funcionamento da aplicação
+routes.get('/healthcheck', (req, res) => {
+    res.json({
+        status: 'UP',
+        hostname: os.hostname(),
+        date: new Date().toISOString(),
+        networks: os.networkInterfaces()
+     });
 });
 
+//Rota padrão mostra o HTML
+routes.get('/', (req,res) =>{
+    res.sendFile(path.join(__dirname,'../index.html'));
+});
 
 module.exports = routes;

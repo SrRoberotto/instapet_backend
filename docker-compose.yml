@@ -1,12 +1,23 @@
 version: '3'
 services:
   instapet-backend:
+    restart: unless-stopped
+ 
     build: .
     command: "npm run start"
     working_dir: "/home/node/instapet"
     environment:
-      - NODE-ENV=production
+      - NODE_ENV=production
     expose: 
-      - "3330"
+      - "3333"
     ports:
-      - "3330:3333"
+      - "3333:3333"
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    env_file:
+     - ./compose.env
+    #  - ./.env
+     

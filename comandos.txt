@@ -15,3 +15,7 @@ yarn add cors
 yarn add socket.io
 
 yarn add sharp
+
+
+docker swarm init
+

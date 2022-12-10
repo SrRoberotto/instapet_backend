@@ -14,6 +14,13 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+// const morgan = require('morgan');
+// const helmet = require('helmet');
+// const compression = require('compression');
+// const PORT = process.env.PORT || 3000;
+// app.use(morgan(app.get('env') === 'production' ? 'combined' : 'dev'));
+// app.use(helmet());
+// app.use(compression());
 
 //disponibiliza o socket em toda a aplicação
 app.use((req, res, next) => {
@@ -36,3 +43,5 @@ app.use(require('./routes'));
 //app.listen(3333);
 server.listen(3333);
 console.log("Servidor rodando em http://localhost:3333" );
+console.log("Ambiente atual: " + process.env.ENV_ACTUAL);
+
